@@ -1,16 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script>
-        while (true) {
-            window.open("https://www.google.com");
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Você foi hackeado!</title>
+    <style>
+      body {
+        background-color: black;
+        color: rgb(223, 93, 93);
+        font-family: "Courier New", monospace;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      body {
+        cursor: none;
+      }
+      #fakeCursor {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: red;
+        border-radius: 50%;
+        animation: tremor 0.1s infinite alternate;
+      }
+
+      @keyframes tremor {
+        0% {
+          transform: translate(0, 0);
         }
+        50% {
+          transform: translate(5px, -5px);
+        }
+        100% {
+          transform: translate(-5px, 5px);
+        }
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-top: 5%;
+        text-shadow: 0 0 10px red, 0 0 20px darkred;
+        animation: pisca 1s infinite alternate;
+      }
+
+      @keyframes pisca {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0.2;
+        }
+      }
+
+      .info {
+        margin-top: 5%;
+        color: #ff5555;
+        font-size: 1.2rem;
+        text-align: left;
+        display: inline-block;
+        line-height: 1.5;
+      }
+
+      .alerta {
+        font-size: 1.5rem;
+        color: yellow;
+        margin-top: 2%;
+        text-shadow: 0 0 5px yellow, 0 0 10px orange;
+        animation: alertaPisca 0.8s infinite alternate;
+      }
+
+      @keyframes alertaPisca {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0.3;
+        }
+      }
+
+      .spinner-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        color: red;
+        font-size: 1.2rem;
+      }
+
+      .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-top: 4px solid red;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        animation: girar 1s linear infinite;
+      }
+
+      @keyframes girar {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>VOCÊ FOI HACKEADO!</h1>
+    <div class="alerta">ATENÇÃO: SEUS DADOS FORAM COMPROMETIDOS!</div>
+
+    <div class="info" id="info"></div>
+
+    <div class="spinner-container">
+      Coletando senhas e dados sensíveis...
+      <div class="spinner"></div>
+    </div>
+
+    <script>
+      const info = document.getElementById("info");
+
+      // Informações reais + simuladas
+      const deviceInfo = `
+      <strong>IP:</strong> 177.XXX.XXX.XXX<br>
+      <strong>Localização:</strong> São Paulo - SP, Tatuapé<br>
+      <strong>Navegador:</strong> ${navigator.userAgent}<br>
+      <strong>Plataforma:</strong> ${navigator.platform}<br>
+      <strong>Idioma:</strong> ${navigator.language}<br>
+      <strong>Largura da tela:</strong> ${screen.width}px<br>
+      <strong>Altura da tela:</strong> ${screen.height}px<br>
+      <strong>Profundidade de cor:</strong> ${screen.colorDepth} bits<br>
+      <strong>Online:</strong> ${navigator.onLine}<br>
+      <strong>Cookies habilitados:</strong> ${navigator.cookieEnabled}<br>
+      <strong>Microfone:</strong> Acesso detectado<br>
+      <strong>Câmera:</strong> Acesso detectado<br>
+      <strong>USB Conectados:</strong> Dispositivo(s) detectado(s)<br>
+      <strong>Latitude:</strong> -23.540000<br>
+      <strong>Longitude:</strong> -46.570000<br>
+      <strong>Precisão:</strong> 5m<br>
+    `;
+      info.innerHTML = deviceInfo;
+
+      // Efeito de tela piscando rápido para assustar
+      let flash = true;
+      setInterval(() => {
+        document.body.style.backgroundColor = flash ? "black" : "darkred";
+        flash = !flash;
+      }, 600);
+
+      // Bloqueia teclas
+      document.addEventListener("keydown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+
+      // Bloqueia cliques
+      document.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+
+      // Bloqueia botões do mouse, inclusive direito e scroll
+      document.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+      });
+
+      // Bloqueia seleção de texto
+      document.addEventListener("selectstart", (e) => {
+        e.preventDefault();
+      });
+
+      // Bloqueia navegação do back button (educativo)
+      window.history.pushState(null, document.title, window.location.href);
+      window.addEventListener("popstate", function (event) {
+        window.history.pushState(null, document.title, window.location.href);
+      });
+
+      const hackerText = [
+        "ACESSO REMOTO ESTABELECIDO...",
+        "COLETANDO SENHAS...",
+        "BAIXANDO DADOS SENSÍVEIS...",
+        "DISPOSITIVO COMPROMETIDO!",
+      ];
+
+      let index = 0;
+      function typeWriter() {
+        const div = document.getElementById("info");
+        if (index < hackerText.length) {
+          div.innerHTML += hackerText[index] + "<br>";
+          index++;
+          setTimeout(typeWriter, 1000);
+        }
+      }
+      typeWriter();
     </script>
-</head>
-<body>
-    <h1>Phising</h1>
-</body>
+  </body>
 </html>
